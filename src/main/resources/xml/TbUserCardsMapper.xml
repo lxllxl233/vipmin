@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vipmin.mapper.TbUserCardsMapper">
+
+    <select id="myCards" resultType="com.vipmin.entity.vo.VoCardInfo">
+        SELECT tuc.id,c_id,u_id,tuc.s_id,tuc.card_is_effective,ts.name,
+        tsv.card_name,tsv.card_count,tsv.card_type,tuc.expired_time,tsv.price,tsv.card_discount,
+        tuc.count,tuc.discount
+        FROM tb_user_cards tuc,tb_store_vip tsv,tb_store ts
+        WHERE u_id = #{uId} AND tuc.s_id=ts.id AND tuc.c_id=tsv.id;
+    </select>
+
+    <select id="getApplications" resultType="com.vipmin.entity.vo.VoCardApplication">
+        SELECT tuc.id,tuc.u_id,tuc.s_id,tuc.c_id,tsv.card_name,tsv.price,
+        tsv.card_discount,tsv.card_count,tsv.card_type,tsv.card_expired_time,tu.name,tu.phone,
+        tuc.count,tuc.discount
+        FROM tb_user_cards tuc,tb_store_vip tsv,tb_user tu
+        WHERE tuc.s_id=#{sId} AND tuc.c_id=tsv.id AND tuc.u_id=tu.id LIMIT #{currentPage},#{maxSize};
+    </select>
+
+    <select id="lookUsers" resultType="com.vipmin.entity.vo.VoLookUsers">
+        SELECT tuc.id,tuc.u_id,tuc.s_id,tuc.c_id,tuc.expired_time,tuc.card_is_effective,tu.name,tu.phone,
+        tsv.card_name,tsv.card_count,tsv.card_discount,tsv.card_expired_time,tsv.card_type,tsv.price,
+        tuc.count,tuc.discount
+        FROM tb_user_cards tuc,tb_store_vip tsv,tb_user tu
+        WHERE tuc.c_id=#{cId} AND tuc.s_id=#{sId} AND tuc.u_id=tu.id AND tuc.c_id=tsv.id;
+    </select>
+</mapper>

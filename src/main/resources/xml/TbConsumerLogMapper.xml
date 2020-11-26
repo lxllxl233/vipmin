@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vipmin.mapper.TbConsumerLogMapper">
+
+    <select id="getLog" resultType="com.vipmin.entity.vo.VoConsumer">
+        SELECT tcl.id,tcl.u_id,tcl.c_id,tcl.s_id,tcl.is_approve,tcl.create_time,tcl.update_time,
+       tcl.before_money,tcl.after_money,
+       tu.name,tu.phone,
+       tsv.card_name,tsv.card_count,tsv.card_discount,tsv.card_type
+        FROM tb_consumer_log tcl,tb_user tu,tb_store_vip tsv
+        WHERE tcl.s_id=#{sId} AND tcl.u_id=tu.id AND tcl.c_id=tsv.id LIMIT #{currentPage},#{maxSize};
+    </select>
+    <select id="getUserLog" resultType="com.vipmin.entity.vo.VoUserConsumer">
+        SELECT tcl.id,tcl.u_id,tcl.c_id,tcl.s_id,tcl.is_approve,tcl.create_time,tcl.update_time,
+               tcl.before_money,tcl.after_money,
+               ts.name,ts.phone,ts.location,
+               tsv.card_name,tsv.card_type
+        FROM tb_consumer_log tcl,tb_store ts,tb_store_vip tsv
+        WHERE tcl.u_id=#{uId} AND tcl.s_id=ts.id AND tcl.c_id=tsv.id
+    </select>
+</mapper>
